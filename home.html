@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"> </script>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+  crossorigin="anonymous"></script>
+  <script>
+    let email;
+    const config = {
+      apiKey: "AIzaSyBfHTXQZ8_F_qeAwtEQ4WJsmiYdnaEZdK4",
+      authDomain: "surveyreplica.firebaseapp.com",
+      databaseURL: "https://surveyreplica.firebaseio.com",
+      projectId: "surveyreplica",
+      storageBucket: "surveyreplica.appspot.com",
+      messagingSenderId: "1047827758947",
+      appId: "1:1047827758947:web:7887662d1edbf36d"
+    };
+       async function invoke(){
+    firebase.initializeApp(config);
+    var database = firebase.database();
+    var ref = database.ref();
+     await  firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        email = user.email;
+        console.log("using current user ", user);
+        console.log(email);
+        display();
+      } else {
+        console.log("not signed in");
+      }
+    });
+  }
+    function display(){
+      document.getElementById('some').innerHTML =`<h1>WELCOME ${email} <h1>`;
+    }
+    invoke();
+  </script>
+</head>
+
+<body onreadystatechange="invoke()">
+  <div id ="some"><h1 > WELCOME </h1></div>
+  <button onclick="signout()">signout</button>
+  <script>
+      function signout() {
+        firebase.auth().signOut().then(function () {
+          // Sign-out successful.
+          console.log("successfully signed out");
+          window.location.replace('./loginpage.html');
+        }).catch(function (error) {
+          console.log(error);
+          // An error happened.
+        });
+      }
+    </script>
+</body>
+
+</html>
