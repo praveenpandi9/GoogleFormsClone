@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="catalogue_rules.css" />
+    <style>
+        div {
+            border-style: groove;
+        }
+
+        #ques {
+            border-style: outset;
+        }
+
+        body {
+            background: url('back.jpgw') no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+            -o-background-size: cover;
+            color: rgb(141, 141, 140)
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div id="forminfo">
+
+        <span>enter your survey name </span><input type="text" id="name"></input>
+    </div>
+    <br>
+
+    <div class="myclass" style="border-style:hidden;border-style:hidden;background-color: darkcyan;">
+        <div class="row">
+            <div class="col-sm-6">
+                <button type="button" class="btn btn-info btn-lg glyphicon glyphicon-plus pull-right"
+                    onclick="add()">Add a Question</button>
+            </div>
+            <div class="col-sm-6">
+                <button type="button" class="btn btn-danger btn-lg glyphicon glyphicon-minus" onclick="remove()">Remove
+                    Question</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        var count = 1;
+        function add() {
+            var iDiv = document.createElement('div');
+            iDiv.id = `${count}`;
+            var localCount = `${count}`;
+            document.getElementsByTagName('body')[0].appendChild(iDiv);
+            iDiv.innerHTML = `
+            </br> <textarea id="question${localCount}" data-rows="1" style="height:27px;width:50%;color:black;" placeholder="enter your question here..."></textarea> </br> 
+            <h5>Select the type of question:</h5>
+             <select id ="qstnType${localCount}" style="color:black;" onchange=giveOptions(${localCount})>
+                    <option value="Text" >Type</span></option>
+                    <option value="Checkbox">Checkbox</option>
+                    <option value="Rating">Rating</option>
+            </select >
+            `
+            count = count + 1;
+        }
+        function giveOptions(id){
+            console.log("in here"+"qstnType"+id);
+            
+            var indx = document.getElementById("qstnType"+id).selectedIndex;
+            console.log(indx);
+            switch(indx){
+                case 1 : 
+                document.getElementById(id).innerHTML = document.getElementById(id).innerHTML + 
+                `
+                
+                
+                `; 
+            }
+
+        }
+        
+        function remove() {
+            // console.log($('body'))
+            if (count > 1) {
+                $('body').children('div').last().remove();
+                count = count - 1;
+            }
+        }
+    </script>
+</body>
+
+</html>

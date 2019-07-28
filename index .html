@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <style>
+        div{
+            border-style: groove;
+        }
+        #ques{
+            border-style: outset;
+        }
+    </style>
+
+</head>
+
+<body>
+    <button onclick="add()">Add a Question</button>
+    <button onclick="remove()">Remove Question</button>
+    <div class="some">
+    <script>
+        var count = 1;
+        function add() {
+            var iDiv = document.createElement('div');
+            iDiv.id = `${count}`;
+            document.getElementsByTagName('body')[0].appendChild(iDiv);
+            iDiv.innerHTML = `</br><textarea id="ques" data-rows="1" style="height:27px;">Untitled Question</textarea>
+            <h3>Select the type of question</h3>`+`<select>
+                    <option value="Text">Text</option>
+                    <option value="Checkbox">Checkbox</option>
+                    <option value="Rating">Rating</option>
+            </select >`
+            count = count + 1;
+        }
+
+        function remove() {
+            $('body').children('some div').last().remove();
+            count = count - 1;
+        }
+    </script>
+    </div>
+</body>
+
+</html>
