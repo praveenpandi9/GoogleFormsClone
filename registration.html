@@ -67,11 +67,11 @@
     firebase.initializeApp(config);
     var database = firebase.database();
     var ref = database.ref();
-    async function login() {
+    async function register() {
       var email = document.getElementById("email").value;
       var password = document.getElementById("password").value;
       var phone = document.getElementById("phone").value;
-      var pas = /^[A-Za-z]\w{7,14}$/;
+      var pas = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
       var phoneno = /^\d{10}$/;
       var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
       if (email == "") {
@@ -79,10 +79,8 @@
         return;
       }
       else if (reg.test(email) == false) {
-
-
         alert("invalid email");
-
+        return;
       }
 
       if (password == "") {
@@ -90,10 +88,8 @@
         return;
       }
       else if (pas.test(password) == false) {
-
-
         alert("invalid password");
-
+        return;
       }
 
       if (phone == "") {
@@ -101,16 +97,14 @@
         return;
       }
       else if (phoneno.test(phone) == false) {
-
-
         alert("invalid phone");
-
+        return;
       }
       console.log("here ");
       var email = document.getElementById('email').value;
       var password = document.getElementById('password').value;
       var flag = "success";
-      await firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+      var user = await firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
         var errorCode = error.code;
         var errorMessage = error.message;
         // ...
@@ -119,8 +113,9 @@
         flag = "fail";
         alert("user already exists");
       });
+      console.log(user);
        if(flag === "success")
-        window.location.replace('./loginpage.html');
+        window.location.replace('./login.html');
        console.log("unsuccessfull");
 
     }
@@ -144,7 +139,7 @@
     <div class="input-container">
       <i class="fa fa-envelope icon"></i>
       <input type="text" id="phone" size="50" placeholder="Mobile" required><br><br></div>
-    <BUTTON type="button" class="btn" onclick="login()">Register</BUTTON>
+    <BUTTON type="button" class="btn" onclick="register()">Register</BUTTON>
   </form>
 </body>
 

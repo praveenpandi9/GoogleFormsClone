@@ -48,7 +48,7 @@
 			padding: 15px 20px;
 			border: none;
 			cursor: pointer;
-			width: 81%;
+			width: 76.22%;
 			opacity: 0.9;
 		}
 
@@ -96,7 +96,7 @@
 			var email = document.getElementById('email').value;
 			var password = document.getElementById('password').value;
 			var flag = "true";
-			await firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+			user  = await firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
 				// Handle Errors here.
 				var errorCode = error.code;
 				var errorMessage = error.message;
@@ -104,8 +104,9 @@
 				flag = "false";
 				// ...
 			});
+			console.log("user creds "+JSON.stringify(user));
 			if (flag === "true")
-				 window.location.replace('./home.html');
+				 window.location.href = './home.html';
 			else
 				alert("invaid password/mail ");
 		}
@@ -125,6 +126,9 @@
 			<input type="password" id="password" size="50" placeholder="Password" required><br><br></div>
 
 		<BUTTON type="button" class="btn" onclick="login()">Login</BUTTON>
+		<br/>
+		<br/>
+		<a href="/registration.html"><BUTTON type="button" class="btn">Register</BUTTON></a>
 	</form>
 </body>
 

@@ -1,0 +1,175 @@
+<html>
+
+<head>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: green;
+    }
+
+    h2 {
+      margin: 5px 0;
+    }
+
+    #wrapper {
+      width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 10px 15px;
+      border-radius: 10px;
+    }
+
+    input {
+      margin: 5px 10px;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 10px;
+      margin: 20px 0;
+      color: white;
+      border: 0;
+      border-radius: 10px;
+      border-bottom: 3px solid #333;
+    }
+
+    #submit {
+      background: green;
+    }
+
+    #reset {
+      background: red;
+    }
+
+    #answer {
+      border: 1px dashed #ccc;
+      background: #eee;
+      padding: 10px;
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-firestore.js"></script>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyBfHTXQZ8_F_qeAwtEQ4WJsmiYdnaEZdK4",
+      authDomain: "surveyreplica.firebaseapp.com",
+      databaseURL: "https://surveyreplica.firebaseio.com",
+      projectId: "surveyreplica",
+      storageBucket: "surveyreplica.appspot.com",
+      messagingSenderId: "1047827758947",
+      appId: "1:1047827758947:web:7887662d1edbf36d"
+    }
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script>
+    // function to calculate the result of the survey
+    function tabulateAnswers() {
+      var surveyData = {
+        "name": "praveen",
+      };
+      for (var j = 1; j < 5; j++) {
+        qstn = 'q' + j;
+        anslist = document.getElementsByName(qstn);
+        for (var i = 0; i < anslist.length; i++) {
+          if (anslist[i].checked) {
+            surveyData[`${qstn}`] = anslist[i].value;
+          }
+        }
+      }
+      console.log("something ,,, ,, , ");
+      alert(JSON.stringify(surveyData));
+      var databaseRef = firebase.database().ref();
+      databaseRef.child(surveyData.name).set(surveyData);
+      // console.log(firebase);
+      // let db = firebase.firestore();
+      // console.log(db);
+      // x = db.collection("survey1").doc(surveyData.name).set(surveyData);
+      // console.log(x);
+    }
+    function resetAnswer() {
+      var answerbox = document.getElementById('answer');
+      answerbox.innerHTML = "Your result will show up here!";
+    }
+  </script>
+</head>
+
+<body>
+  <div id="wrapper">
+    <h1>What kind of computer scientist are you?</h1>
+    <p>Take this questionnaire to find out!</p>
+
+    
+      <!-- Question 1 -->
+      <h2>What gets you the most excited?</h2>
+      <!-- Here are the choices for the first question. Each input tag must have the same name. For this question, the name is q1. -->
+      <!-- The value is which answer the choice corresponds to. -->
+      <input type="radio" name="q1" value="Experimenting, discovering, and learning">
+      Experimenting, discovering, and learning
+      <br />
+      <label><input type="radio" name="q1" value="Helping others">
+        Helping others
+      </label><br />
+      <label><input type="radio" name="q1" value="Music, movies, games, and making others laugh">
+        Music, movies, games, and making others laugh
+      </label><br />
+      <label><input type="radio" name="q1" value="Taking risks">
+        Taking risks
+      </label><br />
+      <!-- Question 2 -->
+      <h2>What is your ideal work environment?</h2>
+      <!-- Here are the choices for the second question. Notice how each input tag has the same name (q2), but a different name than the previous question. -->
+      <label><input type="radio" name="q2" value="Inside a high tech lab with lots of fancy equipment">
+        Inside a high tech lab with lots of fancy equipment
+      </label><br />
+      <label><input type="radio" name="q2" value="Somewhere I feel appreciated for my work">
+        Somewhere I feel appreciated for my work
+      </label><br />
+      <label><input type="radio" name="q2" value="Surrounded by cool gadgets and toys">
+        Surrounded by cool gadgets and toys
+      </label><br />
+      <label><input type="radio" name="q2" value="Inside a cozy room or garage at home">
+        Inside a cozy room or garage at home
+      </label><br />
+
+      <!-- Question 3 -->
+      <h2>Who are your role models?</h2>
+      <!-- Choices for the third question -->
+      <label><input type="radio" name="q3" value="People who make great discoveries">
+        People who make great discoveries
+      </label><br />
+      <label><input type="radio" name="q3" value="People who make sacrifices to help others">
+        People who make sacrifices to help others
+      </label><br />
+      <label><input type="radio" name="q3" value="Creative, artistic, and expressive people">
+        Creative, artistic, and expressive people
+      </label><br />
+      <label><input type="radio" name="q3" value="People who build innovative products">
+        People who build innovative products
+      </label><br />
+
+      <!-- Question 4 -->
+      <h2>What do you do when you encounter a difficult problem?</h2>
+      <!-- Choices for the fourth question -->
+      <label><input type="radio" name="q4" value="Try to find the solution yourself (online, in a book, etc.)">
+        Try to find the solution yourself (online, in a book, etc.)
+      </label><br />
+      <label><input type="radio" name="q4" value="Ask someone for help">
+        Ask someone for help
+      </label><br />
+      <label><input type="radio" name="q4" value="Take a break, because it helps you be more creative">
+        Take a break, because it helps you be more creative
+      </label><br />
+      <label><input type="radio" name="q4" value="Jump in and try different solutions until one works">
+        Jump in and try different solutions until one works
+      </label><br />
+
+      <button id="submit" onclick="tabulateAnswers()">Submit Your Answers</button>
+      <button type="reset" id="reset" onclick="resetAnswer()">Reset</button>
+    
+
+
+
+  </div>
+</body>
+
+</html>
