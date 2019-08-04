@@ -73,15 +73,16 @@
       var phone = document.getElementById("phone").value;
       var pas = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
       var phoneno = /^\d{10}$/;
-      var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+      var reg ;
+      //TODO: write a reg expression to validate ur roll no. after that uncomment below ones
       if (email == "") {
         alert("please enter email");
         return;
       }
-      else if (reg.test(email) == false) {
-        alert("invalid email");
-        return;
-      }
+      // else if (reg.test(email) == false) {
+      //   alert("invalid email");
+      //   return;
+      // }
 
       if (password == "") {
         alert("please enter password");
@@ -116,6 +117,11 @@
       console.log(user);
        if(flag === "success")
         window.location.replace('./login.html');
+      else{
+        alert("something unexpected happened have some patience and register again")
+        window.location.replace('./registration.html');
+      }
+
        console.log("unsuccessfull");
 
     }

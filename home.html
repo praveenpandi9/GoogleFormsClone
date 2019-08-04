@@ -76,8 +76,10 @@
             firebase.auth().onAuthStateChanged(function (user) {
                 if (!user)
                     window.location.replace("/login.html");
+                else {
+                    console.log(firebase.auth().currentUser.email);
+                }
             });
-
         };
         function logout() {
             firebase.auth().signOut();
