@@ -91,6 +91,10 @@
             firebase.auth().signOut();
             window.location.replace("/login.html");
         }
+        function adminlogin()
+        {
+            window.open("adminlogin.html");
+        }
     </script>
 </head>
 
@@ -108,8 +112,8 @@ border-radius: 25px;">
     <div class="button1">
         <div class="row">
             <div class="col-sm-6" style="">
-                <button type="button" class="btn btn-info center-block" style="height:50px;width:180px;">Create
-                    Survey</button>
+                <button type="button" class="btn btn-info center-block" style="height:50px;width:180px" onclick="adminlogin()">Admin Login
+                    </button>
             </div>
             <div class="col-sm-6">
                 <a href="surveys.html"><button type="button" class="btn btn-info center-block"
