@@ -73,17 +73,17 @@
 			var email = document.getElementById("email").value;
 			var password = document.getElementById("password").value;
 			var text = ""
-			var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+			// var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 			if (email == "") {
 				alert("please enter email");
 				return;
 			}
-			else if (reg.test(email) == false) {
+			// else if (reg.test(email) == false) {
 
-				text += "Invalid Email<br>";
-				alert("invalid email");
+			// 	text += "Invalid Email<br>";
+			// 	alert("invalid email");
 
-			}
+			// }
 			if (password == "") {
 				alert("please enter valid password");
 				return;
@@ -93,7 +93,7 @@
 				alert("invalid password");
 			}
 
-			var email = document.getElementById('email').value;
+			var email = document.getElementById('email').value+"@cvr.ac.in";
 			var password = document.getElementById('password').value;
 			var flag = "true";
 			user  = await firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {

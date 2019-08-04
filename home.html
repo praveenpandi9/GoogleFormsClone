@@ -24,7 +24,7 @@
     <link rel="stylesheet" type="text/css" href="catalogue_rules.css" />
     <style>
         body {
-            background: url('s5.jpg') no-repeat center center fixed;
+            background: url('back2.jpg') no-repeat center center fixed;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             background-size: cover;
@@ -63,6 +63,7 @@
     <script>
         $(document).ready(initialise);
         function initialise() {
+            var username ;
             const config = {
                 apiKey: "AIzaSyBfHTXQZ8_F_qeAwtEQ4WJsmiYdnaEZdK4",
                 authDomain: "surveyreplica.firebaseapp.com",
@@ -78,8 +79,13 @@
                     window.location.replace("/login.html");
                 else {
                     console.log(firebase.auth().currentUser.email);
+                    var useremail = firebase.auth().currentUser.email;
+                    username = useremail.split("@")[0];
+                    console.log(username);
+                    document.getElementById("username").innerHTML = `${username}`;
                 }
             });
+            
         };
         function logout() {
             firebase.auth().signOut();
@@ -134,7 +140,7 @@ border-radius: 25px;">
                                                             Identificacion
                                                         </strong>
                                                     </td>
-                                                    <td class="text-primary">
+                                                    <td >
                                                         123456789
                                                     </td>
                                                 </tr>
@@ -145,8 +151,8 @@ border-radius: 25px;">
                                                             Name
                                                         </strong>
                                                     </td>
-                                                    <td class="text-primary">
-                                                        Bootdey
+                                                    <td id ="username"> 
+                                                        ${username}
                                                     </td>
                                                 </tr>
                                                 <tr>

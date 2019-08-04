@@ -102,7 +102,7 @@
         return;
       }
       console.log("here ");
-      var email = document.getElementById('email').value;
+      var email = document.getElementById('email').value+"@cvr.ac.in";
       var password = document.getElementById('password').value;
       var flag = "success";
       var user = await firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {

@@ -60,6 +60,13 @@
       appId: "1:1047827758947:web:7887662d1edbf36d"
     }
     firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function (user) {
+                if (!user)
+                    window.location.replace("/login.html");
+                else {
+                    console.log(firebase.auth().currentUser.email);
+                }
+            });
   </script>
   <script>
     // function to calculate the result of the survey
@@ -69,8 +76,9 @@
         if (!user)
           window.location.replace("/login.html");
         else {
-          username = firebase.auth().currentUser.email;
-          console.log(array,username);
+          var useremail = firebase.auth().currentUser.email;
+          username = useremail.split("@")[0];
+          console.log(username);
         }
       });
       // console.log("finaly user is "+userEmail+firebase.auth().currentUser.email);
@@ -86,7 +94,6 @@
           }
         }
       }
-      console.log("something ,,, ,, , ");
       alert(JSON.stringify(surveyData));
       var databaseRef = firebase.database().ref("survey1");
       databaseRef.child(surveyData.name).set(surveyData);
