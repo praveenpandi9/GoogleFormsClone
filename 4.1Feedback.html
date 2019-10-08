@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>4-1 CSE-C FEED BACK</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-firestore.js"></script>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyBfHTXQZ8_F_qeAwtEQ4WJsmiYdnaEZdK4",
+      authDomain: "surveyreplica.firebaseapp.com",
+      databaseURL: "https://surveyreplica.firebaseio.com",
+      projectId: "surveyreplica",
+      storageBucket: "surveyreplica.appspot.com",
+      messagingSenderId: "1047827758947",
+      appId: "1:1047827758947:web:7887662d1edbf36d"
+    }
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (!user)
+        window.location.replace("/login.html");
+      else {
+        console.log(firebase.auth().currentUser.email);
+      }
+    });
+  </script>
+</head>
+
+<body style="background-color:powderblue">
+
+  <div class="container">
+    <CENTER>
+      <h1> Faculty Feedback</h1>
+    </CENTER>
+    <BR>
+    <div class="row">
+      <div class="col-sm-3">
+
+        DWDM:<input type="text" id="dwdm" placeholder="enter faculty name">
+        <br>
+        LP:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" id="lp" placeholder="enter faculty name">
+        <br>
+        IOT:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="iot" placeholder="enter faculty name">
+        <br>
+        PE3:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="pe3" placeholder="enter faculty name">
+        <br>
+        ACD:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="acd" placeholder="enter faculty name">
+        <br>
+
+      </div>
+      <div class="col-sm-9">
+        <div class="row">
+          <div class="col-sm-3" style="background-color:lavender;">
+            <P> Questions</P>
+
+          </div>
+          <div class="col-sm-9" style="background-color:lavenderblush;">
+            <div class="row">
+              <div class="col-sm-2">
+                <p>DWDM</p>
+              </div>
+              <div class="col-sm-2">
+                <p>LP</p>
+              </div>
+              <div class="col-sm-2">
+                <p>IOT</p>
+              </div>
+              <div class="col-sm-2">
+                <p>PE3</p>
+              </div>
+              <div class="col-sm-2">
+                <p>ACD</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-sm-3">
+            <p>Rate the course in genral</p>
+          </div>
+          <div class="col-sm-9">
+            <div class="row">
+              <div class="col-sm-2">
+                <form action="">
+
+                  <label><input type="radio" name="q1" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q1" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q1" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q1" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q1" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q1" value="Very poor">Very poor</label>
+                </form>
+
+              </div>
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q2" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q2" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q2" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q2" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q2" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q2" value="Very poor">Very poor</label>
+                </form>
+
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q3" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q3" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q3 value=" Good">Good</label>
+
+
+                  <label><input type="radio" name="q3" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q3" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q3" value="Very poor">Very poor</label>
+                </form>
+
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q4 value=" Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q4" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q4" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q4" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q4" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q4" value="Very poor">Very poor</label>
+                </form>
+
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q5" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q5" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q5" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q5" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q5" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q5" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+        <hr>
+
+        <div class="row">
+          <div class="col-sm-3">
+            <p>What is your attendace in particular course?</p>
+          </div>
+          <div class="col-sm-9">
+            <div class="row">
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q1" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q1" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q1" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q1" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q1" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q1" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q2" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q2" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q2" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q2" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q2" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q2" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q3" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q3" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q3" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q3" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q3" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q3" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q4" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q4" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q4" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q4" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q4" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q4" value="Very poor">Very poor</label>
+                </form>
+
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q5" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q5" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q5" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q5" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q5" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q5" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+          <div class="col-sm-3">
+            <p>How is faculty's command over subject?</p>
+          </div>
+          <div class="col-sm-9">
+            <div class="row">
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q1" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q1" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q1" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q1" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q1" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q1" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q2" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q2" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q2" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q2" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q2" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q2" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q3" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q3" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q3" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q3" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q3" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q3" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q4" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q4" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q4" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q4" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q4" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q4" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q5" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q5" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q5" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q5" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q5" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q5" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+          <div class="col-sm-3">
+            <p>Do faculty give real time examples while explaning?</p>
+          </div>
+          <div class="col-sm-9">
+            <div class="row">
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q1" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q1" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q1" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q1" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q1" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q1" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q2" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q2" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q2" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q2" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q2" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q2" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q3" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q3" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q3" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q3" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q3" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q3" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q4" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q4" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q4" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q4" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q4" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q4" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q5" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q5" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q5" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q5" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q5" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q5" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+          <div class="col-sm-3">
+            <p>Was the syllabus covered on time?</p>
+          </div>
+          <div class="col-sm-9">
+            <div class="row">
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q1" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q1" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q1" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q1" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q1" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q1" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q2" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q2" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q2" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q2" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q2" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q2" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q3" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q3" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q3" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q3" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q3" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q3" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form action="">
+                  <label><input type="radio" name="q4" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q4" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q4" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q4" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q4" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q4" value="Very poor">Very poor</label>
+                </form>
+              </div>
+
+
+
+              <div class="col-sm-2">
+                <form ation="">
+                  <label><input type="radio" name="q5" value="Excellent">Excellent</label>
+
+
+                  <label><input type="radio" name="q5" value="Very good">Very good</label>
+
+                  <label><input type="radio" name="q5" value="Good">Good</label>
+
+
+                  <label><input type="radio" name="q5" value="Satisfactory">Satisfactory</label>
+
+
+                  <label><input type="radio" name="q5" value="Poor">Poor</label>
+
+
+                  <label><input type="radio" name="q5" value="Very poor">Very poor</label>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <BR>
+        <BR>
+        <CENTER><button type="button" class="btn btn-success" onclick="tabulateAnswers()">Submit</button></CENTER>
+        <br>
+        <br>
+      </div>
+    </div>
+    <!--MAIN!-->
+    <script>
+      async function tabulateAnswers() {
+        var ratingMap = new Map([
+          ["Excellent", 6], ["Very good", 5], ["Good", 4], ["Satisfactory", 3], ["Poor", 2], ["Very poor", 1]]);
+        var qstnsmap = new Map([
+          [1, "Rate the course in genral"], [2, "What is your attendace in particular course?"], [3, "How is faculty's command over subject?"], [4, "Do faculty give real time examples while explaning?"], [5, "Was the syllabus covered on time?"]
+        ]);
+        var subMap = new Map([
+          [1, "DWDM"], [2, "LP"], [3, "IOT"], [4, "PE3"], [5, "ACD"]
+        ]);
+        var username;
+        await firebase.auth().onAuthStateChanged(function (user) {
+          if (!user)
+            window.location.replace("/login.html");
+          else {
+            var useremail = firebase.auth().currentUser.email;
+            username = useremail.split("@")[0];
+            console.log(username);
+          }
+        });
+        // console.log("finaly user is "+userEmail+firebase.auth().currentUser.email);
+        var surveyData = {
+          "name": `${username}`,
+        };
+        for (var j = 1; j <= 5; j++) {
+          qstn  = 'q'+j;
+          surveyData[subMap.get(j)] = {};
+          anslist = document.getElementsByName(qstn);
+          count = 1;
+          for (var i = 0; i < anslist.length; i++) {
+            if (anslist[i].checked) {
+              surveyData[subMap.get(j)][qstnsmap.get(count)] = anslist[i].value;
+              count++;
+            }
+            else if(count > 5){
+              break;
+            }
+          }
+        }
+        alert(JSON.stringify(surveyData));
+        var databaseRef = firebase.database().ref("4-1_CSE-CFEEDBACK");
+        databaseRef.child(surveyData.name).set(surveyData);
+        // console.log(firebase);
+        // let db = firebase.firestore();
+        // console.log(db);
+        // x = db.collection("survey1").doc(surveyData.name).set(surveyData);
+        // console.log(x);
+      }
+      function resetAnswer() {
+        var answerbox = document.getElementById('answer');
+        answerbox.innerHTML = "Your result will show up here!";
+      }
+    </script>
+</body>
+
+</html>
