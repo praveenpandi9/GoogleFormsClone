@@ -2,12 +2,12 @@
 
 <head>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-app.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Gugi" rel="stylesheet">
   <style>
     body {
       font-family: 'Gugi', cursive;
-      font-size: 22px;  
+      font-size: 22px;
     }
 
     * {
@@ -40,6 +40,7 @@
     .input-field:focus {
       border: 2px solid dodgerblue;
     }
+
     .btn {
       background-color: dodgerblue;
       color: white;
@@ -56,13 +57,14 @@
   </style>
   <script>
     const config = {
-      apiKey: "AIzaSyBfHTXQZ8_F_qeAwtEQ4WJsmiYdnaEZdK4",
-      authDomain: "surveyreplica.firebaseapp.com",
-      databaseURL: "https://surveyreplica.firebaseio.com",
-      projectId: "surveyreplica",
-      storageBucket: "surveyreplica.appspot.com",
-      messagingSenderId: "1047827758947",
-      appId: "1:1047827758947:web:7887662d1edbf36d"
+      apiKey: "AIzaSyBR2Z1uIz4aPN2v3iI2ku9QdugvlP7RGo8",
+      authDomain: "forms-579e4.firebaseapp.com",
+      databaseURL: "https://forms-579e4.firebaseio.com",
+      projectId: "forms-579e4",
+      storageBucket: "",
+      messagingSenderId: "401278116212",
+      appId: "1:401278116212:web:6c4a1d0afe5e62e6378c21",
+      measurementId: "G-V3MCG28F96"
     };
     firebase.initializeApp(config);
     var database = firebase.database();
@@ -73,7 +75,7 @@
       var phone = document.getElementById("phone").value;
       var pas = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
       var phoneno = /^\d{10}$/;
-      var reg ;
+      var reg;
       //TODO: write a reg expression to validate ur roll no. after that uncomment below ones
       if (email == "") {
         alert("please enter email");
@@ -102,7 +104,7 @@
         return;
       }
       console.log("here ");
-      var email = document.getElementById('email').value+"@cvr.ac.in";
+      var email = document.getElementById('email').value + "@cvr.ac.in";
       var password = document.getElementById('password').value;
       var flag = "success";
       var user = await firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
@@ -115,14 +117,14 @@
         alert("user already exists");
       });
       console.log(user);
-       if(flag === "success")
+      if (flag === "success")
         window.location.replace('./login.html');
-      else{
+      else {
         alert("something unexpected happened have some patience and register again")
         window.location.replace('./registration.html');
       }
 
-       console.log("unsuccessfull");
+      console.log("unsuccessfull");
 
     }
   </script>

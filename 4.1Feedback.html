@@ -8,18 +8,18 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-app.js"></script>
   <script>
-    var firebaseConfig = {
-      apiKey: "AIzaSyBfHTXQZ8_F_qeAwtEQ4WJsmiYdnaEZdK4",
-      authDomain: "surveyreplica.firebaseapp.com",
-      databaseURL: "https://surveyreplica.firebaseio.com",
-      projectId: "surveyreplica",
-      storageBucket: "surveyreplica.appspot.com",
-      messagingSenderId: "1047827758947",
-      appId: "1:1047827758947:web:7887662d1edbf36d"
-    }
+    const firebaseConfig = {
+      apiKey: "AIzaSyBR2Z1uIz4aPN2v3iI2ku9QdugvlP7RGo8",
+      authDomain: "forms-579e4.firebaseapp.com",
+      databaseURL: "https://forms-579e4.firebaseio.com",
+      projectId: "forms-579e4",
+      storageBucket: "",
+      messagingSenderId: "401278116212",
+      appId: "1:401278116212:web:6c4a1d0afe5e62e6378c21",
+      measurementId: "G-V3MCG28F96"
+    };
     firebase.initializeApp(firebaseConfig);
     firebase.auth().onAuthStateChanged(function (user) {
       if (!user)
@@ -723,7 +723,7 @@
           "name": `${username}`,
         };
         for (var j = 1; j <= 5; j++) {
-          qstn  = 'q'+j;
+          qstn = 'q' + j;
           surveyData[subMap.get(j)] = {};
           anslist = document.getElementsByName(qstn);
           count = 1;
@@ -732,7 +732,7 @@
               surveyData[subMap.get(j)][qstnsmap.get(count)] = anslist[i].value;
               count++;
             }
-            else if(count > 5){
+            else if (count > 5) {
               break;
             }
           }
