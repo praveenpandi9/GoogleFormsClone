@@ -88,11 +88,11 @@
         };
         function logout() {
             firebase.auth().signOut();
-            window.location.replace("/login.html");
+            window.open("main.html");
         }
         function adminlogin()
         {
-            window.open("adminlogin.html");
+            window.location.repl("adminlogin.html");
         }
     </script>
 </head>
@@ -105,18 +105,18 @@ border-radius: 25px;">
         <br>
         <br>
         <h2 Style="text-align: center;">Survey information</h2>
-        <button type="button" class="btn btn-info" style="height:50px;width:180px;margin-left: 81%"
-            onclick="logout()">log out</button>
+        
     </div>
     <div class="button1">
         <div class="row">
             <div class="col-sm-6" style="">
-                <button type="button" class="btn btn-info center-block" style="height:50px;width:180px" onclick="adminlogin()">Admin Login
-                    </button>
+                
+                     <a href="surveys.html"><button type="button" class="btn btn-info center-block"
+                        style="height:50px;width:180px;">Join Survey</button></a>
             </div>
             <div class="col-sm-6">
-                <a href="surveys.html"><button type="button" class="btn btn-info center-block"
-                        style="height:50px;width:180px;">Join Survey</button></a>
+           <button type="button" class="btn btn-info" style="height:50px;width:180px;margin-left: 50%;"
+            onclick="logout()">log out</button>     
             </div>
         </div>
         <div class="container">
@@ -188,7 +188,7 @@ border-radius: 25px;">
                 </div>
 
             </div>
-            <button type="button" class="btn btn-info center-block" style="height:50px;width:200px;">My Surveys</button>
+            
         </div>
 
 
