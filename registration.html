@@ -54,6 +54,14 @@
     .btn:hover {
       opacity: 1;
     }
+     body {
+            background: url('stars2.gif') no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+            -o-background-size: cover;
+            color: bisque
+        }
   </style>
   <script>
     const config = {
@@ -73,7 +81,8 @@
       var email = document.getElementById("email").value;
       var password = document.getElementById("password").value;
       var phone = document.getElementById("phone").value;
-      var pas = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+      var pas =/^\d{10}$/;
+      ///^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
       var phoneno = /^\d{10}$/;
       var reg;
       //TODO: write a reg expression to validate ur roll no. after that uncomment below ones
