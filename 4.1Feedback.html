@@ -29,37 +29,65 @@
       }
     });
   </script>
+   <style>
+        body {
+            background: url('pic2.jpg') no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+            -o-background-size: cover;
+            color: bisque
+        }
+        p
+        {
+          color:white;
+          font-weight: bolder;
+        }
+        input{
+          color:black;
+        }
+        label
+        {
+          color: white;
+        }
+      </style>
 </head>
 
 <body style="background-color:powderblue">
 
   <div class="container">
     <CENTER>
-      <h1>Feedback Form</h1>
+      <div class="row">
+        <div class="col-sm-6">
+     <img src="gif.gif" width="100" height="100" style="float: right;"></div>
+      <div class="col-sm-6"><h1 style="color:white;float: left;">Feedback Form</h1></div>
+    </div>
+    
     </CENTER>
     <BR>
     <div class="row">
       <div class="col-sm-3">
 
-        DWDM:<input type="text" id="dwdm" placeholder="enter faculty name">
+       <span style="color:white;"> DWDM:</span><input type="text" id="dwdm" placeholder="enter faculty name">
         <br>
-        LP:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" id="lp" placeholder="enter faculty name">
+          <span style="color:white;">LP:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" id="lp" placeholder="enter faculty name">
         <br>
-        IOT:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="iot" placeholder="enter faculty name">
+         <span style="color:white;"> IOT:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="iot" placeholder="enter faculty name">
         <br>
-        PE3:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="pe3" placeholder="enter faculty name">
+          <span style="color:white;">PE3:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="pe3" placeholder="enter faculty name">
         <br>
-        ACD:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="acd" placeholder="enter faculty name">
+          <span style="color:white;">ACD:</span>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="acd" placeholder="enter faculty name">
         <br>
+       
 
       </div>
       <div class="col-sm-9">
         <div class="row">
-          <div class="col-sm-3" style="background-color:lavender;">
+          <div class="col-sm-3" style="background-color:black;">
             <P> Questions</P>
 
           </div>
-          <div class="col-sm-9" style="background-color:lavenderblush;">
+          <div class="col-sm-9" style="background-color:black;">
             <div class="row">
               <div class="col-sm-2">
                 <p>DWDM</p>
@@ -83,7 +111,11 @@
 
         <div class="row">
           <div class="col-sm-3">
+            <br>
+            <div class="row" style="background-color: black;">
             <p>Rate the course in genral</p>
+
+          </div>
           </div>
           <div class="col-sm-9">
             <div class="row">
@@ -209,7 +241,7 @@
         <hr>
 
         <div class="row">
-          <div class="col-sm-3">
+          <div class="col-sm-3" style="background-color: black;">
             <p>What is your attendace in particular course?</p>
           </div>
           <div class="col-sm-9">
@@ -333,7 +365,7 @@
         <hr>
 
         <div class="row">
-          <div class="col-sm-3">
+          <div class="col-sm-3" style="background-color: black;">
             <p>How is faculty's command over subject?</p>
           </div>
           <div class="col-sm-9">
@@ -451,7 +483,7 @@
         <hr>
 
         <div class="row">
-          <div class="col-sm-3">
+          <div class="col-sm-3" style="background-color: black;">
             <p>Do faculty give real time examples while explaning?</p>
           </div>
           <div class="col-sm-9">
@@ -575,7 +607,7 @@
         <hr>
 
         <div class="row">
-          <div class="col-sm-3">
+          <div class="col-sm-3" style="background-color: black;">
             <p>Was the syllabus covered on time?</p>
           </div>
           <div class="col-sm-9">
@@ -693,12 +725,14 @@
         <BR>
         <BR>
         <CENTER><button type="button" class="btn btn-success" onclick="tabulateAnswers()">Submit</button></CENTER>
+        
         <br>
         <br>
       </div>
     </div>
     <!--MAIN!-->
     <script>
+     
       async function tabulateAnswers() {
         var ratingMap = new Map([
           ["Excellent", 6], ["Very good", 5], ["Good", 4], ["Satisfactory", 3], ["Poor", 2], ["Very poor", 1]]);
@@ -709,12 +743,14 @@
           [1, "DWDM"], [2, "LP"], [3, "IOT"], [4, "PE3"], [5, "ACD"]
         ]);
         var username;
+        
         await firebase.auth().onAuthStateChanged(function (user) {
           if (!user)
             window.location.replace("/login.html");
           else {
             var useremail = firebase.auth().currentUser.email;
             username = useremail.split("@")[0];
+          
             console.log(username);
           }
         });
@@ -722,6 +758,8 @@
         var surveyData = {
           "name": `${username}`,
         };
+        
+        
         for (var j = 1; j <= 5; j++) {
           qstn  = 'q'+j;
           surveyData[subMap.get(j)] = {};
@@ -737,6 +775,7 @@
             }
           }
         }
+
         alert(JSON.stringify(surveyData));
         var databaseRef = firebase.database().ref("4-1_CSE-CFEEDBACK");
         databaseRef.child(surveyData.name).set(surveyData);
@@ -746,6 +785,67 @@
         // x = db.collection("survey1").doc(surveyData.name).set(surveyData);
         // console.log(x);
       }
+      
+   /*   function chartjs(a,b,c,d,e)
+      {
+        alert("a");
+        alert("b");
+        alert("c");
+        alert("d");
+        alert("e");
+
+      }
+      function fetchdata()
+      {
+        alert("fd");
+        var gd,vg,vp,sat,ex;
+        
+         var qstnsmap = new Map([
+          [1, "Rate the course in genral"], [2, "What is your attendace in particular course?"], [3, "How is faculty's command over subject?"], [4, "Do faculty give real time examples while explaning?"], [5, "Was the syllabus covered on time?"]
+        ]);
+        var subMap = new Map([
+          [1, "DWDM"], [2, "LP"], [3, "IOT"], [4, "PE3"], [5, "ACD"]
+        ]);
+        if(surveyData[nameArr[i]][subMap.get(1)][qstnsmap.get(1)]=="Excellent")
+                            {
+                            
+                              alert("Excellenttttttttttttt");
+                            }
+            for(var sub=1;sub<=5;sub++)
+            {
+                for(var count=1;count<=5;count++)
+                  {
+
+                      gd=0;vg=0;vp=0;sat=0;ex=0;
+
+                        for( var i=0;i<1;i++)
+                         {      
+
+                            if(surveyData[nameArr[i]][subMap.get(sub)][qstnsmap.get(count)]=="Good")
+                            {
+                              gd++;
+                            }
+                            if(surveyData[nameArr[i]][subMap.get(sub)][qstnsmap.get(count)]=="Satisfactory")
+                            {
+                              sat++;
+                             }
+                            if(surveyData[nameArr[i]][subMap.get(sub)][qstnsmap.get(count)]=="Very poor")
+                            {
+                              vp++;
+                            }
+                            if(surveyData[nameArr[i]][subMap.get(sub)][qstnsmap.get(count)]=="Excellent")
+                            {
+                              ex++;
+                            }
+                            if(surveyData[nameArr[i]][subMap.get(sub)][qstnsmap.get(count)]=="Very good")
+                            {
+                              vg++;
+                            }
+                        }
+                        chartjs(gd,sat,vp,ex,vg);
+                    }
+              }
+      }*/
       function resetAnswer() {
         var answerbox = document.getElementById('answer');
         answerbox.innerHTML = "Your result will show up here!";
