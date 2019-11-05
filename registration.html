@@ -81,7 +81,7 @@
       var email = document.getElementById("email").value;
       var password = document.getElementById("password").value;
       var phone = document.getElementById("phone").value;
-      var pas =/^\d{10}$/;
+      var pas = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{7,})/;
       ///^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
       var phoneno = /^\d{10}$/;
       var reg;
