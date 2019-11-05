@@ -86,16 +86,21 @@
                     console.log(username);
                     document.getElementById("username").innerHTML = `${username}`;
                     document.getElementById("name").innerHTML = `${name}`;
+                    if (username === "admin")
+                        document.getElementById("type").innerHTML = "Admin";
                 }
             });
 
         };
-        function logout() {
-            firebase.auth().signOut();
+        async function logout() {
+            await firebase.auth().signOut();
             window.open("main.html");
         }
-        function adminlogin() {
-            window.location.repl("adminlogin.html");
+        function authenticate() {
+            var useremail = firebase.auth().currentUser.email;
+            username = useremail.split("@")[0];
+            if (username === "admin")
+                window.open("\surveyStats.html");
         }
     </script>
 </head>
@@ -119,11 +124,11 @@ border-radius: 25px;">
             </div>
             <div class="col-sm-6" style="">
 
-                <a href="surveyStats.html"><button type="button" class="btn btn-info center-block"
-                        style="height:50px;width:180px;margin-left: 10%">Survey Info</button></a>
+                <a><button type="button" onclick="authenticate()"" class=" btn btn-info center-block"
+                        style="height:50px;width:180px;margin-left: 50%">Survey Info</button></a>
             </div>
             <div class="col-sm-6">
-                <button type="button" class="btn btn-info" style="height:50px;width:180px;margin-left: 30%;"
+                <button type="button" class="btn btn-info" style="height:50px;width:180px;margin-left: 90%;"
                     onclick="logout()">log out</button>
             </div>
         </div>
@@ -174,7 +179,7 @@ border-radius: 25px;">
                                                             Type:
                                                         </strong>
                                                     </td>
-                                                    <td class="text-primary">
+                                                    <td class="text-primary" id="type"style="color:white;">
                                                         <span style="color:white;">Student</span>
                                                     </td>
                                                 </tr>

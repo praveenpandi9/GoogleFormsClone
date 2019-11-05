@@ -139,7 +139,7 @@
           displayName: username,
           phoneNumber: phone,
 
-        }).then(function () {
+        }).then(function () { 
           console.log(userNow.displayName, userNow.phoneNo);
         }, function (error) {
           // An error happened.
@@ -147,12 +147,12 @@
         });
       };
       console.log("after : ", userNow);
-      // if (flag === "success")
-      //   // window.location.replace('./login.html');
-      // else {
-      //   alert("something unexpected happened have some patience and register again")
-      //   window.location.replace('./registration.html');
-      // }
+      if (flag === "success")
+        window.location.replace('./login.html');
+      else {
+        alert("something unexpected happened have some patience and register again")
+        window.location.replace('./registration.html');
+      }
 
       console.log("unsuccessfull");
     }

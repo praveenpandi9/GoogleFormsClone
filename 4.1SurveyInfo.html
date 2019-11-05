@@ -2,855 +2,178 @@
 <html lang="en">
 
 <head>
-  <title>4-1 CSE-C FEED BACK</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase.js"></script>
-  <script>
-  var firebaseConfig = {
-    apiKey: "AIzaSyBR2Z1uIz4aPN2v3iI2ku9QdugvlP7RGo8",
-    authDomain: "forms-579e4.firebaseapp.com",
-    databaseURL: "https://forms-579e4.firebaseio.com",
-    projectId: "forms-579e4",
-    storageBucket: "",
-    messagingSenderId: "401278116212",
-    appId: "1:401278116212:web:6c4a1d0afe5e62e6378c21",
-    measurementId: "G-V3MCG28F96"
-  };
-    firebase.initializeApp(firebaseConfig);
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (!user)
-        window.location.replace("/login.html");
-      else {
-        console.log(firebase.auth().currentUser.email);
-      }
-    });
-  </script>
-   <style>
+    <title>4-1 CSE-C FEED BACK</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyBR2Z1uIz4aPN2v3iI2ku9QdugvlP7RGo8",
+            authDomain: "forms-579e4.firebaseapp.com",
+            databaseURL: "https://forms-579e4.firebaseio.com",
+            projectId: "forms-579e4",
+            storageBucket: "",
+            messagingSenderId: "401278116212",
+            appId: "1:401278116212:web:6c4a1d0afe5e62e6378c21",
+            measurementId: "G-V3MCG28F96"
+        };
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (!user)
+                window.location.replace("/login.html");
+            else {
+                console.log(firebase.auth().currentUser.email);
+            }
+        });
+        $(document).ready(getSurveydata);
+        async function getSurveydata() {
+            ratingMap = new Map([
+                ["Excellent", 6], ["Very good", 5], ["Good", 4], ["Satisfactory", 3], ["Poor", 2], ["Very poor", 1]]);
+            qstnsmap = new Map([
+                [1, "Rate the course in genral"], [2, "What is your attendace in particular course?"], [3, "How is faculty's command over subject?"], [4, "Do faculty give real time examples while explaning?"], [5, "Was the syllabus covered on time?"]
+            ]);
+            subMap = new Map([
+                [1, "DWDM"], [2, "LP"], [3, "IOT"], [4, "PE3"], [5, "ACD"]
+            ]);
+            var username;
+
+            await firebase.auth().onAuthStateChanged(function (user) {
+                if (!user)
+                    window.location.replace("/login.html");
+                else {
+                    var useremail = firebase.auth().currentUser.email;
+                    username = useremail.split("@")[0];
+
+                    console.log(username);
+
+                }
+            });
+            // console.log("finaly user is "+userEmail+firebase.auth().currentUser.email);
+            surveyData = {
+            };
+            count = 1;
+            var databaseRef = firebase.database().ref("4-1_CSE-CFEEDBACK");
+            await databaseRef.on("value", function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    var data = childSnapshot.val();
+                    console.log("child data", data);
+                    if (count == 1) {
+                        for (var i = 1; i <= 5; i++) {
+                            surveyData[subMap.get(i)] = {};
+                            for (var j = 1; j <= 5; j++) {
+                                surveyData[subMap.get(i)][qstnsmap.get(j)] = ratingMap.get(data[subMap.get(i)][qstnsmap.get(j)]);
+                            }
+                        }
+                        console.log("after updating :" + JSON.stringify(surveyData));
+                    }
+                    else {
+                        console.log(JSON.stringify(surveyData));
+                        for (var i = 1; i <= 5; i++) {
+                            for (var j = 1; j <= 5; j++) {
+                                surveyData[subMap.get(i)][qstnsmap.get(j)] += ratingMap.get(data[subMap.get(i)][qstnsmap.get(j)]);
+                                surveyData[subMap.get(i)][qstnsmap.get(j)] = surveyData[subMap.get(i)][qstnsmap.get(j)] ;
+                            }
+                        }
+                    }
+                    count++;
+                });
+                console.log("final " + JSON.stringify(surveyData));
+            });
+        }
+        async function display(sub) {
+            console.log("surve y data is ", surveyData);
+            document.getElementById("heading").innerHTML = "Survey Info of " + sub;
+            var data = {};
+            switch (sub) {
+                case 'DWDM':
+                    data = surveyData['DWDM'];
+                    break;
+                case 'LP':
+                    data = surveyData['LP'];
+                    break;
+                case 'IOT':
+                    data = surveyData['IOT'];
+                    break;
+                case 'PE3':
+                    data = surveyData['PE3'];
+                    break;
+                case 'ACD':
+                    data = surveyData['ACD'];
+            }
+            array = [];
+            for (i = 1; i <= 5; i++) {
+                array.push(data[qstnsmap.get(i)]/count);
+            }
+            console.log(subMap.values())
+            console.log(data);
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var myChart = await new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from(qstnsmap.values()),
+                    datasets: [{
+                        label: 'rating ',
+                        data: array,
+                        backgroundColor: [
+                            'rgba(255, 1, 9, 0.5)',
+
+                        ],
+                        borderColor: [
+                            'rgba(255,255,255,255)',
+
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+    </script>
+    <style>
         body {
-            background: url('pic2.jpg') no-repeat center center fixed;
+            background: url('s5.jpg') no-repeat center center fixed;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             background-size: cover;
             -o-background-size: cover;
-            color: bisque
+            color: brown
         }
-        p
-        {
-          color:white;
-          font-weight: bolder;
+
+        button {
+            align-content: center;
+            margin: 5px;
+            padding: 5px;
         }
-        input{
-          color:black;
-        }
-        label
-        {
-          color: white;
-        }
-      </style>
+    </style>
+
 </head>
 
-<body style="background-color:powderblue">
-
-  <div class="container">
-    <CENTER>
-      <div class="row">
-        <div class="col-sm-6">
-     <img src="gif.gif" width="100" height="100" style="float: right;"></div>
-      <div class="col-sm-6"><h1 style="color:white;float: left;">Feedback Form</h1></div>
-    </div>
-    
-    </CENTER>
-    <BR>
-    <div class="row">
-      <div class="col-sm-3">
-
-       <span style="color:white;"> DWDM:</span><input type="text" id="dwdm" placeholder="enter faculty name">
-        <br>
-          <span style="color:white;">LP:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" id="lp" placeholder="enter faculty name">
-        <br>
-         <span style="color:white;"> IOT:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="iot" placeholder="enter faculty name">
-        <br>
-          <span style="color:white;">PE3:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="pe3" placeholder="enter faculty name">
-        <br>
-          <span style="color:white;">ACD:</span>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="acd" placeholder="enter faculty name">
-        <br>
-       
-
-      </div>
-      <div class="col-sm-9">
-        <div class="row">
-          <div class="col-sm-3" style="background-color:black;">
-            <P> Questions</P>
-
-          </div>
-          <div class="col-sm-9" style="background-color:black;">
-            <div class="row">
-              <div class="col-sm-2">
-                <p>DWDM</p>
-              </div>
-              <div class="col-sm-2">
-                <p>LP</p>
-              </div>
-              <div class="col-sm-2">
-                <p>IOT</p>
-              </div>
-              <div class="col-sm-2">
-                <p>PE3</p>
-              </div>
-              <div class="col-sm-2">
-                <p>ACD</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="row">
-          <div class="col-sm-3">
-            <br>
-            <div class="row" style="background-color: black;">
-            <p>Rate the course in genral</p>
-
-          </div>
-          </div>
-          <div class="col-sm-9">
-            <div class="row">
-              <div class="col-sm-2">
-                <form action="">
-
-                  <label><input type="radio" name="q1" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q1" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q1" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q1" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q1" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q1" value="Very poor">Very poor</label>
-                </form>
-
-              </div>
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q2" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q2" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q2" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q2" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q2" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q2" value="Very poor">Very poor</label>
-                </form>
-
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q3" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q3" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q3 value=" Good">Good</label>
-
-
-                  <label><input type="radio" name="q3" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q3" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q3" value="Very poor">Very poor</label>
-                </form>
-
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q4 value=" Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q4" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q4" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q4" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q4" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q4" value="Very poor">Very poor</label>
-                </form>
-
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q5" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q5" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q5" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q5" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q5" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q5" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-
-
-
-            </div>
-          </div>
-        </div>
-        <hr>
-
-        <div class="row">
-          <div class="col-sm-3" style="background-color: black;">
-            <p>What is your attendace in particular course?</p>
-          </div>
-          <div class="col-sm-9">
-            <div class="row">
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q1" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q1" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q1" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q1" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q1" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q1" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q2" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q2" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q2" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q2" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q2" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q2" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q3" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q3" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q3" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q3" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q3" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q3" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q4" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q4" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q4" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q4" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q4" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q4" value="Very poor">Very poor</label>
-                </form>
-
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q5" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q5" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q5" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q5" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q5" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q5" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-
-
-
-            </div>
-          </div>
-        </div>
-
-        <hr>
-
-        <div class="row">
-          <div class="col-sm-3" style="background-color: black;">
-            <p>How is faculty's command over subject?</p>
-          </div>
-          <div class="col-sm-9">
-            <div class="row">
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q1" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q1" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q1" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q1" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q1" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q1" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q2" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q2" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q2" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q2" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q2" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q2" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q3" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q3" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q3" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q3" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q3" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q3" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q4" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q4" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q4" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q4" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q4" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q4" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q5" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q5" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q5" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q5" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q5" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q5" value="Very poor">Very poor</label>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <hr>
-
-        <div class="row">
-          <div class="col-sm-3" style="background-color: black;">
-            <p>Do faculty give real time examples while explaning?</p>
-          </div>
-          <div class="col-sm-9">
-            <div class="row">
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q1" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q1" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q1" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q1" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q1" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q1" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q2" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q2" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q2" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q2" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q2" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q2" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q3" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q3" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q3" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q3" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q3" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q3" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q4" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q4" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q4" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q4" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q4" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q4" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q5" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q5" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q5" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q5" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q5" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q5" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-
-
-
-
-            </div>
-          </div>
-        </div>
-
-        <hr>
-
-        <div class="row">
-          <div class="col-sm-3" style="background-color: black;">
-            <p>Was the syllabus covered on time?</p>
-          </div>
-          <div class="col-sm-9">
-            <div class="row">
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q1" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q1" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q1" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q1" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q1" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q1" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q2" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q2" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q2" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q2" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q2" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q2" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q3" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q3" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q3" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q3" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q3" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q3" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form action="">
-                  <label><input type="radio" name="q4" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q4" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q4" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q4" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q4" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q4" value="Very poor">Very poor</label>
-                </form>
-              </div>
-
-
-
-              <div class="col-sm-2">
-                <form ation="">
-                  <label><input type="radio" name="q5" value="Excellent">Excellent</label>
-
-
-                  <label><input type="radio" name="q5" value="Very good">Very good</label>
-
-                  <label><input type="radio" name="q5" value="Good">Good</label>
-
-
-                  <label><input type="radio" name="q5" value="Satisfactory">Satisfactory</label>
-
-
-                  <label><input type="radio" name="q5" value="Poor">Poor</label>
-
-
-                  <label><input type="radio" name="q5" value="Very poor">Very poor</label>
-                </form>
-
-              </div>
-            </div>
-          </div>
-        </div>
-        <BR>
-        <BR>
-        <CENTER><button type="button" class="btn btn-success" onclick="tabulateAnswers()">Submit</button></CENTER>
-        
-        <br>
-        <br>
-      </div>
-    </div>
-    <!--MAIN!-->
-    <script>
-     
-      async function tabulateAnswers() {
-        var ratingMap = new Map([
-          ["Excellent", 6], ["Very good", 5], ["Good", 4], ["Satisfactory", 3], ["Poor", 2], ["Very poor", 1]]);
-        var qstnsmap = new Map([
-          [1, "Rate the course in genral"], [2, "What is your attendace in particular course?"], [3, "How is faculty's command over subject?"], [4, "Do faculty give real time examples while explaning?"], [5, "Was the syllabus covered on time?"]
-        ]);
-        var subMap = new Map([
-          [1, "DWDM"], [2, "LP"], [3, "IOT"], [4, "PE3"], [5, "ACD"]
-        ]);
-        var username;
-        
-        await firebase.auth().onAuthStateChanged(function (user) {
-          if (!user)
-            window.location.replace("/login.html");
-          else {
-            var useremail = firebase.auth().currentUser.email;
-            username = useremail.split("@")[0];
-          
-            console.log(username);
-          }
-        });
-        // console.log("finaly user is "+userEmail+firebase.auth().currentUser.email);
-        var surveyData = {
-          "name": `${username}`,
-        };
-        
-        
-        for (var j = 1; j <= 5; j++) {
-          qstn  = 'q'+j;
-          surveyData[subMap.get(j)] = {};
-          anslist = document.getElementsByName(qstn);
-          count = 1;
-          for (var i = 0; i < anslist.length; i++) {
-            if (anslist[i].checked) {
-              surveyData[subMap.get(j)][qstnsmap.get(count)] = anslist[i].value;
-              count++;
-            }
-            else if(count > 5){
-              break;
-            }
-          }
-        }
-
-        alert(JSON.stringify(surveyData));
-        var databaseRef = firebase.database().ref("4-1_CSE-CFEEDBACK");
-        databaseRef.child(surveyData.name).set(surveyData);
-        // console.log(firebase);
-        // let db = firebase.firestore();
-        // console.log(db);
-        // x = db.collection("survey1").doc(surveyData.name).set(surveyData);
-        // console.log(x);
-      }
-      
-   /*   function chartjs(a,b,c,d,e)
-      {
-        alert("a");
-        alert("b");
-        alert("c");
-        alert("d");
-        alert("e");
-
-      }
-      function fetchdata()
-      {
-        alert("fd");
-        var gd,vg,vp,sat,ex;
-        
-         var qstnsmap = new Map([
-          [1, "Rate the course in genral"], [2, "What is your attendace in particular course?"], [3, "How is faculty's command over subject?"], [4, "Do faculty give real time examples while explaning?"], [5, "Was the syllabus covered on time?"]
-        ]);
-        var subMap = new Map([
-          [1, "DWDM"], [2, "LP"], [3, "IOT"], [4, "PE3"], [5, "ACD"]
-        ]);
-        if(surveyData[nameArr[i]][subMap.get(1)][qstnsmap.get(1)]=="Excellent")
-                            {
-                            
-                              alert("Excellenttttttttttttt");
-                            }
-            for(var sub=1;sub<=5;sub++)
-            {
-                for(var count=1;count<=5;count++)
-                  {
-
-                      gd=0;vg=0;vp=0;sat=0;ex=0;
-
-                        for( var i=0;i<1;i++)
-                         {      
-
-                            if(surveyData[nameArr[i]][subMap.get(sub)][qstnsmap.get(count)]=="Good")
-                            {
-                              gd++;
-                            }
-                            if(surveyData[nameArr[i]][subMap.get(sub)][qstnsmap.get(count)]=="Satisfactory")
-                            {
-                              sat++;
-                             }
-                            if(surveyData[nameArr[i]][subMap.get(sub)][qstnsmap.get(count)]=="Very poor")
-                            {
-                              vp++;
-                            }
-                            if(surveyData[nameArr[i]][subMap.get(sub)][qstnsmap.get(count)]=="Excellent")
-                            {
-                              ex++;
-                            }
-                            if(surveyData[nameArr[i]][subMap.get(sub)][qstnsmap.get(count)]=="Very good")
-                            {
-                              vg++;
-                            }
-                        }
-                        chartjs(gd,sat,vp,ex,vg);
-                    }
-              }
-      }*/
-      function resetAnswer() {
-        var answerbox = document.getElementById('answer');
-        answerbox.innerHTML = "Your result will show up here!";
-      }
-    </script>
+<body style="background-color:black;color: black;align-content: center;width: 100%;height: 2000px;">
+    <center>
+        <header>
+            <H1>SURVEY INFO</H1>
+        </header>
+        <button type="button" onclick="display('DWDM')">DWDM</button>
+        <button type="button" onclick="display('LP')">LP</button>
+        <button type="button" onclick="display('IOT')">IOT</button>
+        <button type="button" onclick="display('PE3')">PE3</button>
+        <button type="button" onclick="display('ACD')">ACD</button>
+        <div style="width:900px;height:900px" id="chartDiv">
+            <h1 id="heading" style="color: goldenrod;">Survey Info of </h1>
+            <canvas id="myChart"></canvas>
+    </center>
 </body>
 
 </html>
