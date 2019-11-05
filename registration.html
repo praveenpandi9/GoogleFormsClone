@@ -54,14 +54,15 @@
     .btn:hover {
       opacity: 1;
     }
-     body {
-            background: url('stars2.gif') no-repeat center center fixed;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            background-size: cover;
-            -o-background-size: cover;
-            color: bisque
-        }
+
+    body {
+      background: url('stars2.gif') no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      background-size: cover;
+      -o-background-size: cover;
+      color: bisque
+    }
   </style>
   <script>
     const config = {
@@ -125,17 +126,37 @@
         flag = "fail";
         alert("user already exists");
       });
-      console.log(user);
-      if (flag === "success")
-        window.location.replace('./login.html');
-      else {
-        alert("something unexpected happened have some patience and register again")
-        window.location.replace('./registration.html');
-      }
+      var userNow = firebase.auth().currentUser;
+      if (userNow) {
+        console.log("in here");
+        console.log("before : ", userNow);
+        // Updates the user attributes:
+        var username = document.getElementById('username').value;
+        var phone = document.getElementById('phone').value;
+        console.log(username, phone);
+        await userNow.updateProfile({
+
+          displayName: username,
+          phoneNumber: phone,
+
+        }).then(function () {
+          console.log(userNow.displayName, userNow.phoneNo);
+        }, function (error) {
+          // An error happened.
+          console.log(error);
+        });
+      };
+      console.log("after : ", userNow);
+      // if (flag === "success")
+      //   // window.location.replace('./login.html');
+      // else {
+      //   alert("something unexpected happened have some patience and register again")
+      //   window.location.replace('./registration.html');
+      // }
 
       console.log("unsuccessfull");
-
     }
+
   </script>
 </head>
 
